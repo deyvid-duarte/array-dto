@@ -1,21 +1,24 @@
 {
-    "name": "deyvid-duarte/array-dto",
-    "description": "A simple way to use PHP Attributes to especify your array schema",
-    "type": "library",
-    "require-dev": {
-        "phpunit/phpunit": "^11.3"
-    },
-    "autoload": {
-        "psr-4": {
-            "DeyvidDuarte\\ArrayDto\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Deyvid Duarte",
-            "email": "deyviddc@gmail.com"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {}
+  "name": "deyvid-duarte/array-dto",
+  "description": "A simple way to use PHP Attributes to especify your array schema",
+  "type": "library",
+  "require-dev": {
+    "phpunit/phpunit": "^11.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "DeyvidDuarte\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Deyvid Duarte",
+      "email": "deyviddc@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {},
+  "scripts": {
+    "test": "./vendor/bin/phpunit --colors --testdox tests"
+  }
 }
