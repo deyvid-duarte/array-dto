@@ -19,6 +19,6 @@
   "minimum-stability": "stable",
   "require": {},
   "scripts": {
-    "test": "./vendor/bin/phpunit --colors --testdox tests"
+    "test": "./vendor/bin/phpunit --colors --testdox --display-warnings tests"
   }
 }
