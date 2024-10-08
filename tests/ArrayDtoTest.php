@@ -9,14 +9,22 @@ class TestClass {}
 
 final class ArrayDtoTest extends TestCase
 {
-	#[ArrayDto(['name' => 'string', 'age' => 'integer', 'average' => 'double', 'approved' => 'boolean', 'teacher' => 'object', 'class' => TestClass::class])]
+	#[ArrayDto([
+		'name' => 'string', 
+		'age' => 'integer',
+		'average' => 'float',
+		'approved' => 'bool',
+		'teacher' => stdClass::class,
+		'class' => TestClass::class,
+		'callable' => 'callable'
+	])]
 	private array $user;
 
     public function test_deve_validar_que_o_array_nao_possui_os_indices_definidos(): void
     {
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage(
-			'Invalid DTO Schema: Expected structure ["name","age","average","approved","teacher","class"] but received ["nome","idade","media","aprovado","professor","classe"]'
+			'Invalid DTO Schema: Expected structure ["name","age","average","approved","teacher","class","callable"] but received ["nome","idade","media","aprovado","professor","classe","callables"]'
 		);
 
 		$this->user = [
@@ -25,7 +33,8 @@ final class ArrayDtoTest extends TestCase
 			'media' => 12,
 			'aprovado' => true,
 			"professor" => '2123123',
-			"classe" => false
+			"classe" => false,
+			'callables' => 'asdasds'
 		];
 		ArrayDtoHandler::validateSchema($this);
     }
@@ -34,7 +43,7 @@ final class ArrayDtoTest extends TestCase
     {
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage(
-			'Invalid DTO Schema: Expected structure {"name":"string","age":"integer","average":"double","approved":"boolean","teacher":"object","class":"TestClass"} but received {"name":"integer","age":"string","average":"integer","approved":"string","teacher":"integer","class":"boolean"}'
+			'Invalid DTO Schema: Expected structure {"name":"string","age":"integer","average":"float","approved":"bool","teacher":"stdClass","class":"TestClass","callable":"callable"} but received {"name":"integer","age":"string","average":"integer","approved":"string","teacher":"integer","class":"boolean","callable":"string"}'
 		);
 
 		$this->user = [
@@ -43,7 +52,8 @@ final class ArrayDtoTest extends TestCase
 			'average' => 12,
 			'approved' => 'true',
 			'teacher' => 44,
-			'class' => false
+			'class' => false,
+			'callable' => 'ola'
 		];
 		ArrayDtoHandler::validateSchema($this);
     }
@@ -56,7 +66,10 @@ final class ArrayDtoTest extends TestCase
 			'average' => 10.0,
 			'approved' => true,
 			'teacher' => new stdClass(),
-			'class' => new TestClass()
+			'class' => new TestClass(),
+			'callable' => function() {
+				echo "Olá Mundo!";
+			}
 		];
 		ArrayDtoHandler::validateSchema($this);
 		$this->expectNotToPerformAssertions();

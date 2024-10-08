@@ -39,9 +39,8 @@ class ArrayDto
 		$dtoSchemaKeys = array_keys($this->dtoSchema);
 		$propertyKeysInvalid = $propertyValue;
 		foreach ($dtoSchemaKeys as $key) {
-			$propertyTypeValue = gettype($propertyValue[$key]);
-			$propertyKeysInvalid[$key] = $propertyTypeValue;
-			if ($propertyTypeValue != $this->dtoSchema[$key]) {
+			$propertyKeysInvalid[$key] = gettype($propertyValue[$key]);
+			if (!$this->isCorrectType($propertyValue[$key], $this->dtoSchema[$key])) {
 				$isInvalid = true;
 			}
 		}
@@ -50,5 +49,14 @@ class ArrayDto
 			json_encode($this->dtoSchema),
 			json_encode($propertyKeysInvalid)
 		));
+	}
+
+	private function isCorrectType(mixed $propertyTypeValue, string $correctPropertyType): bool
+	{	
+		$isSomething = "is_$correctPropertyType";
+		if (function_exists($isSomething)) {
+			return call_user_func($isSomething, $propertyTypeValue);
+		}
+		return $propertyTypeValue instanceof $correctPropertyType;
 	}
 }
